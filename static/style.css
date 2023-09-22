@@ -1,7 +1,13 @@
+@font-face {
+  font-family: QuicksandBook;
+  src: url(./fonts/Quicksand_Book.otf);
+}
+
 body {
-    background-color: black;
+  background-color: black;
 }
 
 div {
-    color:white;
+  color: white;
+  font-family: QuicksandBook;
 }

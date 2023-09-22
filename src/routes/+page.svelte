@@ -27,8 +27,6 @@
   }
 </script>
 
-<!-- <GlobalStyles/> -->
-
 <Jumbotron {currentBeeObject}/>
 
 <BeeNames {currentBeeObject} />
@@ -39,13 +37,10 @@
 
 
 <div class="debug fixed-bottom">
-    <div class="row">
+    <!-- <div class="row">
         {JSON.stringify(currentBeeObject)}
-    </div>
+    </div> -->
 
-  <!-- Current Bee:
-  <br />
-  {$currentBeeIndex} -->
   <div class="row">
       <button class="btn btn-primary" on:click={nextBeeButtonClicked}> Next Bee</button>
   </div>
