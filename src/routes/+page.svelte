@@ -4,8 +4,8 @@
   import bees from "../bees.json";
   import Jumbotron from "../Components/Jumbotron.svelte";
   import BeeYears from "../Components/BeeYears.svelte";
-
   import BeeNames from "../Components/BeeNames.svelte";
+  import TimerBar from "../Components/TimerBar.svelte";
 
   //get the bee array from the bee json
   let beeArray = bees.bees;
@@ -25,6 +25,10 @@
     currentBeeObject = beeArray[$currentBeeIndex];
     console.log("Now looking at bee " + $currentBeeIndex)
   }
+
+  currentBeeIndex.subscribe(() => { 
+    currentBeeObject = beeArray[$currentBeeIndex];
+  })
 </script>
 
 <Jumbotron {currentBeeObject}/>
@@ -37,6 +41,7 @@
 
 
 <div class="debug fixed-bottom">
+    <TimerBar></TimerBar>
     <!-- <div class="row">
         {JSON.stringify(currentBeeObject)}
     </div> -->
