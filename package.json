@@ -15,6 +15,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"svelte-countup": "^0.2.6"
+		"svelte-countup": "^0.2.6",
+		"svelte-timer-store": "^0.6.1"
 	}
 }

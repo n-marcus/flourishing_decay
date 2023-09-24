@@ -1,8 +1,8 @@
 <script>
   import { currentBeeIndex } from "../stores";
   export let currentBeeObject;
-  let blurValue = 100;
-  let initBlurValue = 100;
+  let blurValue = 50;
+  let initBlurValue = 50;
 
   currentBeeIndex.subscribe(() => {
     blurValue = initBlurValue;

@@ -1,33 +1,55 @@
 <script>
-  import { currentBeeIndex } from "../stores";
+  import { currentBeeIndex, crossFading, beePercentage } from "../stores";
   import bees from "../bees.json";
   //get the bee array from the bee json
   let beeArray = bees.bees;
-  let percentage = 50;
+  // let percentage = 0;
   //number of ms per bee
-  let timePerBee = 10000;
+  let timePerBee = 5000;
+  let fadeOuttime = 2000;
 
+  let timer;
   let startTime, endTime;
 
+  currentBeeIndex.subscribe(() => { 
+    $beePercentage = 0;
+    $crossFading = false;
+    console.log("Timer bar says current bee index changed " + $currentBeeIndex)
+    startTimer(timePerBee);
+  })
+
   function timerEnded() {
-    //when user clicks the button for the next bee
-    $currentBeeIndex += 1;
-    $currentBeeIndex %= beeArray.length;
-    console.log("Now looking at bee " + $currentBeeIndex);
-    
-    //start the new timer
-    startTimer();
+    if ($crossFading) { 
+      //if the timer ended  and we were are coming from a crossfade
+      $crossFading = false;
+      //update to the next bee
+      $currentBeeIndex += 1;
+      $currentBeeIndex %= beeArray.length;
+      startTimer(timePerBee);
+    } else {
+      $crossFading = true;
+      startTimer(fadeOuttime);
+    }
   }
 
-  function startTimer() {
+  function startTimer(waitingTime) {
+    //try to find running timers and kill them
+    //the subscribe function will retrigger this timer when the timer ends... 
+    //I mean to only trigger this function from subscribe when the user has pressed a button for the next bee...
+    try { 
+      clearInterval(timer);
+      console.log("Cleared zombie timer")
+    } catch(e) {
+      console.log("No timer to clear so all good")
+    }
     startTime = new Date();
-
+    console.log("Waiting for " + waitingTime)
     //add the timer per bee to the current time, this is the moment in time in which we will switch to the next bee
-    endTime = new Date(startTime.getTime() + timePerBee);
-    console.log("Waiting from " + startTime + " till " + endTime);
+    endTime = new Date(startTime.getTime() + waitingTime);
+    // console.log("Waiting from " + startTime.getTime() + " till " + endTime.getTime());
 
     //start a timer
-    const timer = setInterval(() => {
+    timer = setInterval(() => {
       let now = new Date();
       if (now >= endTime) {
         //stop the timer if we reached the target
@@ -40,21 +62,18 @@
       //calculate the time difference between now and the time for the new bee
       let msDifference = endTime.getTime() - now.getTime();
       //calculate the percentage we're at for the current bee
-      percentage = 1.0 - msDifference / timePerBee;
-      //   console.log("Still waiting for: " + msDifference + " perc " + percentage);
+      $beePercentage = 1.0 - msDifference / waitingTime;
     }, 15); //every x ms
   }
-
-  startTimer();
 </script>
 
-<div class="container-fluid m-0 p-0">
-  <div class="timer-bar p-0 m-0" style="width:{percentage * 100}vw;" />
-</div>
+  <div
+    class="timer-bar p-0 m-0 {$crossFading ? 'bg-warning' : 'bg-white'}"
+    style="width:{$beePercentage * 100}vw; "
+  />
 
 <style>
   .timer-bar {
-    background-color: white;
-    height: 2px;
+    height: 5px;
   }
 </style>
