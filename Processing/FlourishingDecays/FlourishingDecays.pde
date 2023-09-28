@@ -10,13 +10,14 @@ BeeInformation[] bees;
 TimerBar timerBar;
 
 PFont quicksand;
+PFont quicksand12;
+PFont quicksandBold;
 
 
 void setup() {
   pixelDensity(1);
-
-
-  size( 810, 1200, OPENGL);
+  size(1080, 1920, OPENGL);
+  noSmooth();
 
   Ani.init(this);
 
@@ -24,7 +25,9 @@ void setup() {
 
   timerBar = new TimerBar();
 
-  quicksand = createFont("Quicksand_Book.otf", 128);
+  quicksand = createFont("Quicksand_Book.otf", 48);
+  quicksand12 = createFont("Quicksand_Book.otf", 12);
+  quicksandBold = createFont("Quicksand_Bold.otf", 48);
   textFont(quicksand);
 
   setupOSC();
@@ -43,7 +46,7 @@ void draw() {
   fill(255);
   noStroke();
   textSize(14);
-  textMode(CORNER);
+  textAlign(LEFT, TOP);
   text(int(frameRate), 10, 10);
 }
 
