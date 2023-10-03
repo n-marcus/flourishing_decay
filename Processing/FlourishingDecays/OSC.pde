@@ -20,7 +20,7 @@ void setupOSC() {
 
 void sendPercentageMessagesToFlowers(float percentage) {
 
-  println("Sending fade on messages " + percentage);
+  //println("Sending fade on messages " + percentage);
 
   //calculate how many flowers can be on at this moment in time
   int maxFlowerIndex = ceil((percentage / 100.) * numFlowers);

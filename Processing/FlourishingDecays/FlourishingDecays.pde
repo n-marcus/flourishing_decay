@@ -32,7 +32,7 @@ void setup() {
 
   quicksand = createFont("Quicksand_Book.otf", 48);
   quicksand12 = createFont("Quicksand_Book.otf", 12);
-  quicksandBold = createFont("Quicksand_Bold.otf", 48);
+  quicksandBold = createFont("Quicksand_Bold.otf", 75);
   textFont(quicksand);
 
   setupOSC();

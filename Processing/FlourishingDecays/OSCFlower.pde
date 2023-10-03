@@ -9,7 +9,7 @@ class OSCFlower {
   }
 
   void sendOscMessage(int _airOn) {
-    if (_airOn != airOn) {
+    if (_airOn != airOn ) {
       //if the airon status changed
       airOn = _airOn;
 

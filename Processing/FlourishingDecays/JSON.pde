@@ -24,6 +24,9 @@ void loadJSON() {
     bees[i].nestingMethod = bee.getInt("nesting_method");
     bees[i].data_2003 = bee.getInt("data_2003");
     bees[i].data_2018 = bee.getInt("data_2018");
+    bees[i].atlas_areas = bee.getInt("atlas_areas");
+    bees[i].social = bee.getBoolean("social");
+    bees[i].area = bee.getString("area");
     //bees[i].initAnimation();
     println(bees[i].trendPercentage);
     
@@ -31,6 +34,8 @@ void loadJSON() {
     //bees[i].countupTest.restartCount(int(random(100)), 4);
 
     //bees[i].reshow();
+    
+    bees[i].preSaveImages();
     print(bees[i]);
   }
 }

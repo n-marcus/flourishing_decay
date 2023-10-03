@@ -19,8 +19,17 @@ class BeeInformation {
 
   public int nestingMethod = 0;
   public PImage[] nestingMethodImgs = new PImage[2];
+  public PImage socialImage;
+  public boolean social = false;
+
+  public String area = "";
+  public PImage areaImage;
+
+  public PImage atlasImage = new PImage();
 
   public PImage percentageCircle = new PImage();
+
+  public int atlas_areas = 0;
 
   private int titlePadding = 20;
   float titleBottomY = 75;
@@ -64,6 +73,23 @@ class BeeInformation {
 
     //percentage circle
     percentageCircle = loadImage("./imgs/percentageCircle.png");
+
+    atlasImage = loadImage("./imgs/atlas.png");
+  }
+
+  void preSaveImages() {
+    if (social) {
+      socialImage = loadImage("./imgs/social1.png");
+    } else {
+      socialImage = loadImage("./imgs/social0.png");
+    }
+
+    try {
+      areaImage = loadImage("./imgs/" + area + ".png");
+    }
+    catch(Exception e) {
+      println("Could not load area image for " + area);
+    }
   }
 
   void draw(TimerBar timerBar) {
@@ -71,7 +97,7 @@ class BeeInformation {
 
       //this is to speed the percentage up a little for the bee calculations
       //this makes the last seconds of the bee info static
-      float percentageSpedUp = timerBar.percentage * 1.5;
+      float percentageSpedUp = timerBar.percentage * 1;
       percentageSpedUp = constrain(percentageSpedUp, 0.0, 1.0);
 
       //divide the percentage by 0.5 to split it into two parts
@@ -79,7 +105,7 @@ class BeeInformation {
       int percentageHalf = floor(percentageSpedUp/ 0.5);
 
       //calculate how far the current half is
-      float percentagePerHalf = (timerBar.percentage * 2.0);
+      float percentagePerHalf = (percentageSpedUp * 2.0);
       if (percentageHalf > 0) {
         percentagePerHalf -= 1.0;
       }
@@ -99,11 +125,11 @@ class BeeInformation {
 
       fill(255);
 
-      text("Percentage sped up " + percentageSpedUp, 0, height /2 - 18);
-      text("Percentage Half " + percentageHalf, 0, height /2);
-      text("Percentage per half " + percentagePerHalf, 0, (height / 2) + 18);
-      text("Curve percentage for this half " + curvePercentage, 0, (height / 2) + 36);
-      text("Output percentage " + int(outputPercentage), 0, (height / 2) + 48);
+      //text("Percentage sped up " + percentageSpedUp, 0, height /2 - 18);
+      //text("Percentage Half " + percentageHalf, 0, height /2);
+      //text("Percentage per half " + percentagePerHalf, 0, (height / 2) + 18);
+      //text("Curve percentage for this half " + curvePercentage, 0, (height / 2) + 36);
+      //text("Output percentage " + int(outputPercentage), 0, (height / 2) + 48);
 
       ////send the osc messages
       sendPercentageMessagesToFlowers(outputPercentage);
@@ -130,12 +156,13 @@ class BeeInformation {
     textAlign(CENTER, BOTTOM);
     textSize(24);
     //Make all the columns
-    text("% afname: ", colXCoordinates[0] + (colXWidth / 2), height * 0.55);
+    text("Afname percentage: ", colXCoordinates[0] + (colXWidth / 2) - 20, height * 0.55);
 
     textAlign(LEFT, BOTTOM);
     textFont(quicksand);
     textSize(24);
-    text(status, colXCoordinates[1], height * 0.55);
+    text("Status:", colXCoordinates[1], height * 0.55);
+    text(status, colXCoordinates[1], (height * 0.55) + 32);
 
 
     //bloem specialisme
@@ -144,7 +171,7 @@ class BeeInformation {
     text("Bloem specialisme:", colXCoordinates[1], height * 0.6);
 
     imageMode(CORNER);
-    float flowerSpecImgH = height * 0.05;
+    float flowerSpecImgH = height * 0.04;
     float flowerSpecImgW = (flowerSpecImgH / flowerSpecialismImgs[flowerSpecialism].height ) * flowerSpecialismImgs[flowerSpecialism].width;
     image(flowerSpecialismImgs[flowerSpecialism], colXCoordinates[1], height * 0.625, flowerSpecImgW, flowerSpecImgH);
 
@@ -155,24 +182,55 @@ class BeeInformation {
 
 
     imageMode(CORNER);
-    float nestingMethodImgH = height * 0.125;
+    float nestingMethodImgH = height * 0.1;
     float nestingMethodImgW = (nestingMethodImgH / nestingMethodImgs[nestingMethod].height ) * nestingMethodImgs[nestingMethod].width;
-    image(nestingMethodImgs[nestingMethod], colXCoordinates[1], height * 0.75, nestingMethodImgW, nestingMethodImgH);
+    image(nestingMethodImgs[nestingMethod], colXCoordinates[1], height * 0.74, nestingMethodImgW, nestingMethodImgH);
 
-    textAlign(CENTER, BOTTOM);
-    text("Gebied:", colXCoordinates[2] + (colXWidth / 2), height * 0.55);
-
+    //draw social icon
     textFont(quicksand);
     textSize(24);
-    text("Atlasgebieden:", colXCoordinates[2], height * 0.725);
+    text("Sociaal:", colXCoordinates[1], height * 0.875);
 
+    imageMode(CORNER);
+    float socialImageH = height * 0.05;
+    float socialImageW = (socialImageH / socialImage.height ) * socialImage.width;
+    image(socialImage, colXCoordinates[1], height * 0.9, socialImageW, socialImageH);
+
+
+
+    textAlign(LEFT, BOTTOM);
+    text("Gebied:", colXCoordinates[2], height * 0.55);
+
+    imageMode(CORNER);
+    float areaImgH = height * 0.1;
+    float areaImgW = (areaImgH / areaImage.height ) * areaImage.width;
+    image(areaImage, colXCoordinates[2], height * 0.575, areaImgW, areaImgH);
+
+
+    //write atlas gebieden
+    textFont(quicksand);
+    textSize(24);
+    textAlign(LEFT, BOTTOM);
+    text("Atlasgebieden:", colXCoordinates[2], height * 0.725);
+    //draw atlas image
+    imageMode(CORNER);
+
+    float atlasImageH = height * 0.1;
+    float atlasImageW = (atlasImageH / atlasImage.height ) * atlasImage.width;
+    image(atlasImage, colXCoordinates[2], height * 0.75, atlasImageW, atlasImageH);
+    textSize(48);
+    textAlign(CENTER, CENTER);
+    textFont(quicksandBold);
+    text(atlas_areas, colXCoordinates[2] + (atlasImageW / 2), height *0.75 + (atlasImageH * 0.4));
+
+    //draw percentage circle
     imageMode(CENTER);
     float percentageCircleImgH = height * 0.15;
-    float percentageCircleImgW = percentageCircleImgH;
+    //float percentageCircleImgW = percentageCircleImgH;
     image(percentageCircle, (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7, percentageCircleImgH, percentageCircleImgH);
 
     //Write the percentage
-    textSize(48);
+    textSize(75);
     textAlign(CENTER, CENTER);
     text(int(outputPercentage), (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7);
 
