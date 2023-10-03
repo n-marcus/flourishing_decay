@@ -1,7 +1,8 @@
 OscP5 oscP5;
 NetAddress myRemoteLocation;
+NetAddress abletonOSC;
 
-static final int numFlowers = 100;
+
 int currentFadeOutFlower = 0;
 int _currentFadeOutFlower = 0;
 Ani currentFadeOutFlowerAni;
@@ -12,6 +13,7 @@ static final IntList flowerIndices = IntList.fromRange(numFlowers);
 void setupOSC() {
   oscP5 = new OscP5(this, 12000);
   myRemoteLocation = new NetAddress("127.0.0.1", 12001);
+  abletonOSC = new NetAddress("127.0.0.1", 8080);
 
   currentFadeOutFlowerAni = new Ani(this, 1, 0, "currentFadeOutFlower", numFlowers, Ani.EXPO_IN, "onUpdate:sendFadeOutMessages");
 }
@@ -25,29 +27,34 @@ void sendPercentageMessagesToFlowers(float percentage) {
   //println("max flower index: "
 
   for (int i = 0; i < numFlowers; i ++ ) {
-    int currentIndex = flowerIndices.get(i);
-    OscMessage myMessage = new OscMessage("/flower");
+    //int currentIndex = flowerIndices.get(i);
 
-    myMessage.add(currentIndex); // which flower
+    //OscMessage myMessage = new OscMessage("/flower");
+
+    //    myMessage.add(currentIndex); // which flower
 
     int airOn = (i > maxFlowerIndex) ? 1 : 0;
-    myMessage.add(airOn); //turn it off
+    flowers[i].sendOscMessage(airOn);
+    //myMessage.add(airOn); //turn it off
 
-    /* send the message */
-    oscP5.send(myMessage, myRemoteLocation);
+    ///* send the message */
+    //oscP5.send(myMessage, myRemoteLocation);
+    //oscP5.send(myMessage, abletonOSC);
   }
 }
 
 void sendFadeOutMessages() {
   //if the currently selected fadeout flower has changed, send the osc message to turn it off
   for (int i = 0; i < currentFadeOutFlower; i ++ ) {
-    OscMessage myMessage = new OscMessage("/flower");
+    flowers[i].sendOscMessage(1);
+    //OscMessage myMessage = new OscMessage("/flower");
 
-    myMessage.add(i); // which flower
-    myMessage.add(1); //turn it on
+    //myMessage.add(i); // which flower
+    //myMessage.add(1); //turn it on
 
-    /* send the message */
-    oscP5.send(myMessage, myRemoteLocation);
+    ///* send the message */
+    //oscP5.send(myMessage, myRemoteLocation);
+    //oscP5.send(myMessage, abletonOSC);
   }
 }
 

@@ -13,11 +13,15 @@ PFont quicksand;
 PFont quicksand12;
 PFont quicksandBold;
 
+static final int numFlowers = 100;
+
+
+
 
 void setup() {
   pixelDensity(1);
-  size(1080, 1920, OPENGL);
-  //fullScreen(OPENGL,2);
+  //size(1080, 1920, OPENGL);
+  fullScreen(OPENGL,2);
   noSmooth();
 
   Ani.init(this);
@@ -32,6 +36,8 @@ void setup() {
   textFont(quicksand);
 
   setupOSC();
+  
+  setupOSCFlowers();
 }
 
 
@@ -69,4 +75,6 @@ void nextBee() {
 
   /* send the message */
   oscP5.send(myMessage, myRemoteLocation);
+    /* send the message */
+  oscP5.send(myMessage, abletonOSC);
 }

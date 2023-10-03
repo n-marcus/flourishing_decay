@@ -1,8 +1,8 @@
 class TimerBar {
   //Creating a stopwatch to keep time
 
-  int timerLengthFadeOut = 10000;
-  int timerLengthDefault = 20000;
+  int timerLengthFadeOut = 5000;
+  int timerLengthDefault = 10000;
   int timerLength = timerLengthDefault;
   int startMillis;
   int endMillis;

@@ -3,8 +3,8 @@
         {
             "name_dutch": "Gewone Bij",
             "name_latin": "Lorem Ipsum",
-            "data_2003": 1,
-            "data_2018": 2,
+            "data_2003": 2,
+            "data_2018": 98,
             "area": "Zuid",
             "nesting_method": 0,
             "parasitic": true,
@@ -48,8 +48,8 @@
         {
             "name_dutch": "Dikke hommel",
             "name_latin": "Populus Ecce",
-            "data_2003": 4,
-            "data_2018": 8,
+            "data_2003": 12,
+            "data_2018": 80,
             "area": "Noord",
             "nesting_method": 1,
             "parasitic": false,
@@ -93,8 +93,8 @@
         {
             "name_dutch": "Grote hommel",
             "name_latin": "Populus clamat!",
-            "data_2003": 2,
-            "data_2018": 5,
+            "data_2003": 22,
+            "data_2018": 66,
             "area": "Oost",
             "nesting_method": 0,
             "parasitic": true,

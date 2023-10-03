@@ -7,6 +7,12 @@ class BeeInformation {
   public float trendPercentageInitial = 0.0;
   public float trendPercentageAnimated = 0.0;
 
+  public float outputPercentage = 0.0;
+
+  //we will interpolate between these numbers
+  public int data_2003 = 0;
+  public int data_2018 = 0;
+
   public int flowerSpecialism = 0;
   //array with different images for flower specialism
   public PImage[] flowerSpecialismImgs = new PImage[3];
@@ -62,14 +68,45 @@ class BeeInformation {
 
   void draw(TimerBar timerBar) {
     if (!timerBar.fadeOut) {
-      //get the new percentage from the curve generator
-      float curvePercentage = percentageCurve.currentVal(timerBar.percentage);
 
-      //convert the curve percentage (0.0-1.0) to the real trend percentage for this bee
-      trendPercentageAnimated =  (trendPercentage * curvePercentage);
+      //this is to speed the percentage up a little for the bee calculations
+      //this makes the last seconds of the bee info static
+      float percentageSpedUp = timerBar.percentage * 1.5;
+      percentageSpedUp = constrain(percentageSpedUp, 0.0, 1.0);
 
-      //send the osc messages
-      sendPercentageMessagesToFlowers(trendPercentageAnimated);
+      //divide the percentage by 0.5 to split it into two parts
+      //check which half of the timer we are in (0 or 1)
+      int percentageHalf = floor(percentageSpedUp/ 0.5);
+
+      //calculate how far the current half is
+      float percentagePerHalf = (timerBar.percentage * 2.0);
+      if (percentageHalf > 0) {
+        percentagePerHalf -= 1.0;
+      }
+
+      //calculate the eased percentage for this half
+      float curvePercentage = percentageCurve.currentVal(percentagePerHalf);
+
+      outputPercentage = 0.0;
+      //calculate the real value for this half
+      if (percentageHalf == 0) {
+        //if this is the first half, interpolate the already curved percentage from 100 to the 2003 data
+        outputPercentage  = lerp(0., data_2003, curvePercentage);
+      } else {
+        //if this is the second half, interpolate the already curved percentage from 2003 data to the 2018 data
+        outputPercentage  = lerp(data_2003, data_2018, curvePercentage);
+      }
+
+      fill(255);
+
+      text("Percentage sped up " + percentageSpedUp, 0, height /2 - 18);
+      text("Percentage Half " + percentageHalf, 0, height /2);
+      text("Percentage per half " + percentagePerHalf, 0, (height / 2) + 18);
+      text("Curve percentage for this half " + curvePercentage, 0, (height / 2) + 36);
+      text("Output percentage " + int(outputPercentage), 0, (height / 2) + 48);
+
+      ////send the osc messages
+      sendPercentageMessagesToFlowers(outputPercentage);
       //println("BeeCurve " + trendPercentageAnimated);
     }
 
@@ -93,7 +130,7 @@ class BeeInformation {
     textAlign(CENTER, BOTTOM);
     textSize(24);
     //Make all the columns
-    text("Percentage: ", colXCoordinates[0] + (colXWidth / 2), height * 0.55);
+    text("% afname: ", colXCoordinates[0] + (colXWidth / 2), height * 0.55);
 
     textAlign(LEFT, BOTTOM);
     textFont(quicksand);
@@ -137,7 +174,7 @@ class BeeInformation {
     //Write the percentage
     textSize(48);
     textAlign(CENTER, CENTER);
-    text(int(trendPercentageAnimated), (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7);
+    text(int(outputPercentage), (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7);
 
 
 
@@ -145,13 +182,14 @@ class BeeInformation {
     textAlign(CENTER, CENTER);
     textFont(quicksand);
     textSize(18);
+    text("1988", 25, height - 30);
     text("2003", width / 2, height - 30);
     text("2018", width - 25, height - 30);
 
     //draw the year lines
     fill(255);
     //rectMode(COR);
-    rect(width / 2, height - 30, 5, 10);
+    rect(width / 2, height - 15, 2, 15);
 
     //this creates the fade out effect, always leave this at the bottom
     if (timerBar.fadeOut) {
@@ -170,5 +208,4 @@ class BeeInformation {
 
     //sendPercentageMessagesToFlowers(trendPercentageAnimated);
   }
-
 }
