@@ -26,9 +26,12 @@ class BeeInformation {
   //width of a single column
   float colXWidth;
 
+  CurveGenerator percentageCurve;
+
   BeeInformation() {
     createColumns();
     loadImages();
+    percentageCurve = new CurveGenerator();
   }
 
   void createColumns () {
@@ -58,6 +61,18 @@ class BeeInformation {
   }
 
   void draw(TimerBar timerBar) {
+    if (!timerBar.fadeOut) {
+      //get the new percentage from the curve generator
+      float curvePercentage = percentageCurve.currentVal(timerBar.percentage);
+
+      //convert the curve percentage (0.0-1.0) to the real trend percentage for this bee
+      trendPercentageAnimated =  (trendPercentage * curvePercentage);
+
+      //send the osc messages
+      sendPercentageMessagesToFlowers(trendPercentageAnimated);
+      //println("BeeCurve " + trendPercentageAnimated);
+    }
+
     float imgH = height * 0.45;
     float imgW = (imgH / img.height ) * img.width;
 
@@ -117,7 +132,7 @@ class BeeInformation {
     imageMode(CENTER);
     float percentageCircleImgH = height * 0.15;
     float percentageCircleImgW = percentageCircleImgH;
-    image(percentageCircle, (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7,percentageCircleImgH,percentageCircleImgH);
+    image(percentageCircle, (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7, percentageCircleImgH, percentageCircleImgH);
 
     //Write the percentage
     textSize(48);
@@ -146,25 +161,14 @@ class BeeInformation {
     }
   }
 
-
-  void reshow() {
-    trendPercentage = 100; //reset the value for the new animation
-    //restart the animation
-    trendPercentageAni = new Ani(this, 4, 0, "trendPercentageAnimated", trendPercentage, Ani.EXPO_IN, "onUpdate:trendPercentageUpdated");
-    trendPercentageAni.start();
-    //pick the flowers that will be active for this bee
+  void resetAnimation() {
     pickRandomFlowersForBee(trendPercentageInitial);
   }
 
 
   void trendPercentageUpdated() {
 
-    sendPercentageMessagesToFlowers(trendPercentageAnimated);
+    //sendPercentageMessagesToFlowers(trendPercentageAnimated);
   }
 
-  void initAnimation() {
-    trendPercentageInitial = trendPercentage; //save the initial value somewhere before we start animating it
-    //take 4 seconds, 0 seconds delay to move variable trendpercentageAnimated to the value of trendPercentage
-    trendPercentageAni = new Ani(this, 4, 0, "trendPercentageAnimated", trendPercentage, Ani.EXPO_IN, "onUpdate:trendPercentageUpdated");
-  }
 }

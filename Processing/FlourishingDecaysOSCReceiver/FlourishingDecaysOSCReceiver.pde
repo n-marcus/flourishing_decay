@@ -30,6 +30,17 @@ void draw() {
   for (Flower flower : flowers) {
     flower.draw();
   }
+  
+  fill(255);
+  
+  int numFlowersOn = 0;
+  for (Flower flower : flowers) { 
+    //if the air for this flower is on, increase the num flowers on variable
+    if (flower.airOn) { 
+      numFlowersOn ++;
+    }
+  }
+  text("Percentage on: " + (numFlowersOn) + "%", width / 2,   50);
 }
 
 
@@ -37,8 +48,12 @@ void draw() {
 /* incoming osc message are forwarded to the oscEvent method. */
 void oscEvent(OscMessage theOscMessage) {
   if (theOscMessage.checkAddrPattern("/flower")) {
+    //println("got flower message");
+    
     int flowerIndex = theOscMessage.get(0).intValue();
     int airOn = theOscMessage.get(1).intValue();
+    
+    println("/flower " + flowerIndex + " " + airOn); 
 
     Flower targetFlower = flowers.get(flowerIndex);
     //targetFlower.airOn = boolean(airOn);

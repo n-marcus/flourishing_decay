@@ -22,7 +22,7 @@ void loadJSON() {
     bees[i].trendPercentage = bee.getFloat("trend_percentage");
     bees[i].flowerSpecialism = bee.getInt("flower_specialism");
     bees[i].nestingMethod = bee.getInt("nesting_method");
-    bees[i].initAnimation();
+    //bees[i].initAnimation();
     println(bees[i].trendPercentage);
     
     

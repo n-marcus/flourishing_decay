@@ -17,6 +17,7 @@ PFont quicksandBold;
 void setup() {
   pixelDensity(1);
   size(1080, 1920, OPENGL);
+  //fullScreen(OPENGL,2);
   noSmooth();
 
   Ani.init(this);
@@ -59,7 +60,7 @@ void keyPressed() {
 void nextBee() {
   beeIndex ++;
   beeIndex %= bees.length;
-  bees[beeIndex].reshow();
+  //bees[beeIndex].reshow();
 
   /* in the following different ways of creating osc messages are shown by example */
   OscMessage myMessage = new OscMessage("/bee");
@@ -68,8 +69,4 @@ void nextBee() {
 
   /* send the message */
   oscP5.send(myMessage, myRemoteLocation);
-}
-
-void fadeOutStarted() {
-  clearAllAir();
 }

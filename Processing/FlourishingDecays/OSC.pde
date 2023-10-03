@@ -18,18 +18,19 @@ void setupOSC() {
 
 void sendPercentageMessagesToFlowers(float percentage) {
 
-  //println("Sending fade on messages " + percentage);
-  
+  println("Sending fade on messages " + percentage);
+
   //calculate how many flowers can be on at this moment in time
-  int maxFlowerIndex = ceil((percentage / 100.) * numFlowers); 
+  int maxFlowerIndex = ceil((percentage / 100.) * numFlowers);
+  //println("max flower index: "
 
   for (int i = 0; i < numFlowers; i ++ ) {
     int currentIndex = flowerIndices.get(i);
     OscMessage myMessage = new OscMessage("/flower");
 
     myMessage.add(currentIndex); // which flower
-    
-    int airOn = (i < maxFlowerIndex) ? 1 : 0;
+
+    int airOn = (i > maxFlowerIndex) ? 1 : 0;
     myMessage.add(airOn); //turn it off
 
     /* send the message */
@@ -43,7 +44,7 @@ void sendFadeOutMessages() {
     OscMessage myMessage = new OscMessage("/flower");
 
     myMessage.add(i); // which flower
-    myMessage.add(0); //turn it off
+    myMessage.add(1); //turn it on
 
     /* send the message */
     oscP5.send(myMessage, myRemoteLocation);
@@ -53,8 +54,12 @@ void sendFadeOutMessages() {
 void clearAllAir() {
   //reset the current fadeout flower
   currentFadeOutFlower = 0;
+  println("Starting clear all air");
   //start the fade out flower animation
-  currentFadeOutFlowerAni.start();
+  if (!currentFadeOutFlowerAni.isPlaying()) {
+    println("Starting fadeoutflowerani");
+    currentFadeOutFlowerAni.start();
+  }
 }
 
 void pickRandomFlowersForBee(float perc) {
