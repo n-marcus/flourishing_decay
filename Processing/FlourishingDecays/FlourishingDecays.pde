@@ -21,6 +21,7 @@ static final int numFlowers = 100;
 void setup() {
   pixelDensity(1);
   //size(1080, 1920, OPENGL);
+  //1 is eigen scherm, 2 is externe display
   fullScreen(OPENGL,2);
   noSmooth();
 
