@@ -20,7 +20,6 @@ void setup() {
   makeFlowerGrid();
   ac = AudioContext.getDefaultContext();
   
-  
 }
 
 void draw() {
