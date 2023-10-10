@@ -11,7 +11,9 @@ class TimerBar {
   float percentage = 0.0;
 
   color defaultColor = color(255, 255, 255);
-  color fadeOutColor = color(100, 50, 2);
+  
+  //
+  color fadeOutColor = color(100);
   color currentColor = defaultColor;
 
   boolean resetSend = false;
@@ -42,7 +44,7 @@ class TimerBar {
     noStroke();
     rectMode(CORNER);
     rect(0, height, percentage * width, -20);
-
+    fill(255);
     //write the years:
     textAlign(CENTER, CENTER);
     textFont(quicksand);

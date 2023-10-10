@@ -151,10 +151,10 @@ class BeeInformation {
     textFont(quicksand);
     textSize(48);
     textAlign(LEFT, TOP);
-    text(nameDutch, titlePadding, imgH + (titlePadding / 2));
+    text(nameDutch, titlePadding, imgH + (titlePadding));
     textSize(18);
     textAlign(RIGHT, TOP);
-    text(nameLatin, width - titlePadding, imgH  + (titlePadding / 2));
+    text(nameLatin, width - titlePadding, imgH  + (titlePadding));
 
     textAlign(LEFT, BOTTOM);
     textSize(24);
@@ -253,14 +253,14 @@ class BeeInformation {
     imageMode(CENTER);
     float percentageCircleImgH = height * 0.15;
     //float percentageCircleImgW = percentageCircleImgH;
-    image(percentageCircle, width /2, height * 0.55, percentageCircleImgH, percentageCircleImgH);
+    image(percentageCircle, width /2, height * 0.575  , percentageCircleImgH, percentageCircleImgH);
 
     //Write the percentage
     textSize(75);
     textAlign(CENTER, CENTER);
     //text(round(outputPercentage), (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7);
     String percentString = str(round(outputPercentage));
-    text(percentString, width / 2, height * 0.55);
+    text(percentString, width / 2, height * 0.575);
 
 
     //this creates the fade out effect, always leave this at the bottom
