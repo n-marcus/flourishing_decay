@@ -31,6 +31,11 @@ void draw() {
   // The second is using an enhanced loop:
   for (Flower flower : flowers) {
     flower.draw();
+    
+    if (flower.sendingMessage) { 
+       fill(0,255,0);
+       circle(10,10,10);
+    }
   }
 
   fill(255);
@@ -43,7 +48,8 @@ void draw() {
     }
   }
   text("Percentage on: " + (numFlowersOn) + "%", width / 2, 50);
-  text("Mousemode on: " + (mouseMode), width / 2, 100);
+  text("Reverse: " + (100 - numFlowersOn) + "%", width / 2, 100);
+  text("Mousemode on: " + (mouseMode), width / 2, 150);
 
   if (mouseMode) {
     checkMouse();

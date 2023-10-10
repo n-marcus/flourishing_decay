@@ -48,7 +48,7 @@ void sendFadeOutMessages() {
   
   println("Counting till " + currentFadeOutFlower + " and turning it on");
   for (int i = 0; i < currentFadeOutFlower; i ++ ) {
-    flowers[i].sendOscMessage(1);
+    //flowers[i].sendOscMessage(1);
     
     //somehow doing this through the flower objects doesnt always work
     //so we force it again with this
@@ -56,6 +56,8 @@ void sendFadeOutMessages() {
 
     myMessage.add(i); // which flower
     myMessage.add(1); //turn it on
+    
+    //delay(3);
 
     /* send the message */
     oscP5.send(myMessage, myRemoteLocation);

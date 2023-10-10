@@ -10,6 +10,7 @@ class Flower {
   color airOnColor = color(0, 0, 200);
   color airOffColor = color(100, 100, 100);
   color currentColor = airOffColor;
+  boolean sendingMessage = false;
   PImage img;
 
   SamplePlayer player;
@@ -50,10 +51,15 @@ class Flower {
     }
 
     _airOn = airOn;
+
+    if (sendingMessage == true) {
+      sendingMessage = false;
+    }
   }
 
   void sendOscMessage() {
     //send an osc message
+    sendingMessage = true;
     OscMessage myMessage = new OscMessage("/flower");
 
     myMessage.add(i); // which flower

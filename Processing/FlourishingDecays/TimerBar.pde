@@ -3,7 +3,7 @@ class TimerBar {
 
   //int timerLengthFadeOut = 10000;
   //int timerLengthDefault = 30000;
-  int timerLengthFadeOut = 3000;
+  int timerLengthFadeOut = 5000;
   int timerLengthDefault = 10000;
   int timerLength = timerLengthDefault;
   int startMillis;
