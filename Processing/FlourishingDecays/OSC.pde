@@ -45,18 +45,18 @@ void sendPercentageMessagesToFlowers(float percentage) {
 
 void sendFadeOutMessages() {
   //if the currently selected fadeout flower has changed, send the osc message to turn it off
-  
+
   println("Counting till " + currentFadeOutFlower + " and turning it on");
   for (int i = 0; i < currentFadeOutFlower; i ++ ) {
     //flowers[i].sendOscMessage(1);
-    
+
     //somehow doing this through the flower objects doesnt always work
     //so we force it again with this
     OscMessage myMessage = new OscMessage("/flower");
 
     myMessage.add(i); // which flower
     myMessage.add(1); //turn it on
-    
+
     //delay(3);
 
     /* send the message */
@@ -66,21 +66,23 @@ void sendFadeOutMessages() {
 }
 
 void clearAllAir() {
-  //reset the current fadeout flower
-  currentFadeOutFlower += 2;
-  
-  if (currentFadeOutFlower > flowers.length) { 
-   currentFadeOutFlower = flowers.length - 1; 
-  }
+  ////reset the current fadeout flower
+  //currentFadeOutFlower += 3;
 
-  sendFadeOutMessages();
-  //currentFadeOutFlower = 0;
-  //println("Starting clear all air");
-  ////start the fade out flower animation
-  //if (!currentFadeOutFlowerAni.isPlaying()) {
-  //  println("Starting fadeoutflowerani");
-  //  currentFadeOutFlowerAni.start();
+  //if (currentFadeOutFlower > flowers.length) {
+  // currentFadeOutFlower = flowers.length - 1;
   //}
+
+  //sendFadeOutMessages();
+
+  println("Sending reset message!");
+
+  OscMessage myMessage = new OscMessage("/reset");
+  myMessage.add(3000); //turn it on
+
+  /* send the message */
+  oscP5.send(myMessage, myRemoteLocation);
+  oscP5.send(myMessage, abletonOSC);
 }
 
 void pickRandomFlowersForBee(float perc) {

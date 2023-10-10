@@ -22,12 +22,14 @@ void setup() {
   pixelDensity(1);
   //size(1080, 1920, OPENGL);
   //1 is eigen scherm, 2 is externe display
-  fullScreen(OPENGL,2);
-  noSmooth();
+
+  //noSmooth();
 
   Ani.init(this);
 
   loadJSON();
+
+  fullScreen(1);
 
   timerBar = new TimerBar();
 
@@ -37,19 +39,20 @@ void setup() {
   textFont(quicksand);
 
   setupOSC();
-  
+
   setupOSCFlowers();
 }
 
 
 void draw() {
   background(0);
+  frameRate(30);
 
 
   bees[beeIndex].draw(timerBar);
 
   timerBar.draw();
- 
+
 
   fill(255);
   noStroke();
@@ -76,6 +79,6 @@ void nextBee() {
 
   /* send the message */
   oscP5.send(myMessage, myRemoteLocation);
-    /* send the message */
+  /* send the message */
   oscP5.send(myMessage, abletonOSC);
 }

@@ -3,8 +3,8 @@ class TimerBar {
 
   //int timerLengthFadeOut = 10000;
   //int timerLengthDefault = 30000;
-  int timerLengthFadeOut = 5000;
-  int timerLengthDefault = 10000;
+  int timerLengthFadeOut = 10000;
+  int timerLengthDefault = 12000;
   int timerLength = timerLengthDefault;
   int startMillis;
   int endMillis;
@@ -13,6 +13,8 @@ class TimerBar {
   color defaultColor = color(255, 255, 255);
   color fadeOutColor = color(100, 50, 2);
   color currentColor = defaultColor;
+
+  boolean resetSend = false;
 
   boolean fadeOut = false;
 
@@ -43,9 +45,14 @@ class TimerBar {
     rect(0, height, percentage * width, -10);
 
     if (percentage > 0.6 && fadeOut) {
-      clearAllAir();
-    } else { 
+      if (!resetSend) {
+        clearAllAir();
+        resetSend = true;
+      }
+      
+    } else {
       currentFadeOutFlower = 0;
+      resetSend = false;
     }
 
     if (now > startMillis + timerLength) {
