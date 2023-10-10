@@ -1,8 +1,10 @@
 class TimerBar {
   //Creating a stopwatch to keep time
 
-  int timerLengthFadeOut = 10000;
-  int timerLengthDefault = 30000;
+  //int timerLengthFadeOut = 10000;
+  //int timerLengthDefault = 30000;
+  int timerLengthFadeOut = 3000;
+  int timerLengthDefault = 10000;
   int timerLength = timerLengthDefault;
   int startMillis;
   int endMillis;
@@ -24,7 +26,7 @@ class TimerBar {
     percentage = 0.0;
 
     for (BeeInformation bee : bees) {
-      //reset all bee animations 
+      //reset all bee animations
       bee.resetAnimation();
     }
   }
@@ -39,9 +41,11 @@ class TimerBar {
     noStroke();
     rectMode(CORNER);
     rect(0, height, percentage * width, -10);
-    
-    if (percentage > 0.6 && fadeOut) { 
+
+    if (percentage > 0.6 && fadeOut) {
       clearAllAir();
+    } else { 
+      currentFadeOutFlower = 0;
     }
 
     if (now > startMillis + timerLength) {

@@ -57,7 +57,7 @@ class Flower {
     OscMessage myMessage = new OscMessage("/flower");
 
     myMessage.add(i); // which flower
-    myMessage.add(airOn); //turn it on
+    myMessage.add(int(airOn)); //turn it on
 
     /* send the message */
     oscP5.send(myMessage, myRemoteLocation);
@@ -70,7 +70,7 @@ class Flower {
   }
 
   void checkMouse() {
-    if (dist(mouseX, mouseY, x, y) < 150) {
+    if (dist(mouseX, mouseY, x, y) < 250) {
       if (mouseMode && !airOn) {
         setAir(true);
       }

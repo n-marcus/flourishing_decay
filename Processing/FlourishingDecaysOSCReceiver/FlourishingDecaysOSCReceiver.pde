@@ -73,6 +73,8 @@ void checkReleased() {
 
 
 
+
+
 void checkMouse() {
   for (Flower flower : flowers) {
     flower.checkMouse();
@@ -80,6 +82,14 @@ void checkMouse() {
 }
 
 void keyPressed() {
+
+  if (key == 'a') {
+    for (Flower flower : flowers) {
+      flower.setAir(!flower.airOn);
+      delay(2);
+      flower.draw();
+    }
+  }
 
   if (keyCode == 32) {
     mouseMode = !mouseMode;
