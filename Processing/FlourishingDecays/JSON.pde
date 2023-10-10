@@ -1,7 +1,7 @@
 JSONObject json;
 
 void loadJSON() {
-  json = loadJSONObject("bees.json");
+  json = loadJSONObject("bees_2.json");
 
   JSONArray beeData = json.getJSONArray("bees");
 
