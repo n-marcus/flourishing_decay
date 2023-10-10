@@ -16,7 +16,7 @@ class OSCFlower {
       //send an osc message
       OscMessage myMessage = new OscMessage("/flower");
 
-      myMessage.add(index); // which flower
+      myMessage.add(flowerIndices.get(index)); // which flower
       myMessage.add(airOn); //turn it on
 
       /* send the message */

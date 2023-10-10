@@ -13,7 +13,7 @@ static final IntList flowerIndices = IntList.fromRange(numFlowers);
 void setupOSC() {
   oscP5 = new OscP5(this, 12000);
   myRemoteLocation = new NetAddress("127.0.0.1", 12001);
-  abletonOSC = new NetAddress("127.0.0.1", 8080);
+  abletonOSC = new NetAddress("169.254.145.242", 4200);
 
   currentFadeOutFlowerAni = new Ani(this, 1, 0, "currentFadeOutFlower", numFlowers, Ani.EXPO_IN, "onUpdate:sendFadeOutMessages");
 }

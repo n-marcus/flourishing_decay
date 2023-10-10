@@ -2,6 +2,7 @@ class Flower {
   int x, y, i;
   float LEDPerc = 0.0;
   boolean airOn = false;
+  boolean _airOn = false;
   int airOffDiameter = 10;
   int airOnDiameter = 40;
   int currentDiameter = airOffDiameter;
@@ -43,10 +44,48 @@ class Flower {
     textAlign(CENTER);
     textSize(16);
     text(i, x, y + 30);
+
+    if (airOn != _airOn) {
+      sendOscMessage();
+    }
+
+    _airOn = airOn;
   }
+
+  void sendOscMessage() {
+    //send an osc message
+    OscMessage myMessage = new OscMessage("/flower");
+
+    myMessage.add(i); // which flower
+    myMessage.add(airOn); //turn it on
+
+    /* send the message */
+    oscP5.send(myMessage, myRemoteLocation);
+    println("Sending message /flower ", i, airOn);
+  }
+
 
   void setAir(boolean _airOn) {
     airOn = _airOn;
+  }
+
+  void checkMouse() {
+    if (dist(mouseX, mouseY, x, y) < 150) {
+      if (mouseMode && !airOn) {
+        setAir(true);
+      }
+    } else {
+      if (mouseMode && airOn) {
+        setAir(false);
+      }
+    }
+  }
+
+  void checkClicked() {
+    if (dist(mouseX, mouseY, x, y) < 50) {
+      //if the air is off
+      setAir(!airOn);
+    }
   }
 }
 
