@@ -29,7 +29,7 @@ void setup() {
 
   loadJSON();
 
-  fullScreen(1);
+  fullScreen(2);
 
   timerBar = new TimerBar();
 
@@ -39,6 +39,8 @@ void setup() {
   textFont(quicksand);
 
   setupOSC();
+
+  sendOscReset(4000, 1);
 
   setupOSCFlowers();
 }

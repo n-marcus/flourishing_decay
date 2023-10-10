@@ -22,6 +22,10 @@ class BeeInformation {
   public PImage socialImage;
   public boolean social = false;
 
+
+  public boolean parasitic;
+  public PImage[] parasiticImgs = new PImage[2];
+
   public String area = "";
   public PImage areaImage;
 
@@ -31,7 +35,7 @@ class BeeInformation {
 
   public int atlas_areas = 0;
 
-  private int titlePadding = 20;
+  private int titlePadding = 30;
   float titleBottomY = 75;
   //animation class for the percentage
   Ani trendPercentageAni;
@@ -52,7 +56,9 @@ class BeeInformation {
   void createColumns () {
     //divide the screen in 3 columns
     for (int i = 0; i < colXCoordinates.length; i ++) {
-      colXCoordinates[i] = (((width - titlePadding) / colXCoordinates.length) * i) + titlePadding;
+
+      //
+      colXCoordinates[i] = ((width / colXCoordinates.length) * (i * 1.1)) + titlePadding;
     }
 
     //save the width of a singular column
@@ -75,6 +81,9 @@ class BeeInformation {
     percentageCircle = loadImage("./imgs/percentageCircle.png");
 
     atlasImage = loadImage("./imgs/atlas.png");
+
+    parasiticImgs[0] = loadImage("./imgs/parasite0.png");
+    parasiticImgs[1] = loadImage("./imgs/parasite1.png");
   }
 
   void preSaveImages() {
@@ -124,13 +133,6 @@ class BeeInformation {
       }
 
       fill(255);
-
-      //text("Percentage sped up " + percentageSpedUp, 0, height /2 - 18);
-      //text("Percentage Half " + percentageHalf, 0, height /2);
-      //text("Percentage per half " + percentagePerHalf, 0, (height / 2) + 18);
-      //text("Curve percentage for this half " + curvePercentage, 0, (height / 2) + 36);
-      //text("Output percentage " + int(outputPercentage), 0, (height / 2) + 48);
-
       ////send the osc messages
       sendPercentageMessagesToFlowers(outputPercentage);
       //println("BeeCurve " + trendPercentageAnimated);
@@ -142,112 +144,124 @@ class BeeInformation {
     //println("image shrinks with " + (imgH / img.height));
     //println("image shrinks with " + img.height + " " + img.width + " to " + imgH + " " + imgW);
     imageMode(CENTER);
-    image(img, width / 2, (imgH * 0.5) + titleBottomY, imgW, imgH);
+    image(img, width / 2, (imgH * 0.5), imgW, imgH);
+
 
     fill(255);
     textFont(quicksand);
     textSize(48);
-    textAlign(LEFT, BOTTOM);
-    text(nameDutch, titlePadding, titleBottomY);
+    textAlign(LEFT, TOP);
+    text(nameDutch, titlePadding, imgH + (titlePadding / 2));
     textSize(18);
-    textAlign(RIGHT, BOTTOM);
-    text(nameLatin, width - titlePadding, titleBottomY);
+    textAlign(RIGHT, TOP);
+    text(nameLatin, width - titlePadding, imgH  + (titlePadding / 2));
 
-    textAlign(CENTER, BOTTOM);
+    textAlign(LEFT, BOTTOM);
     textSize(24);
     //Make all the columns
-    text("Afname percentage: ", colXCoordinates[0] + (colXWidth / 2) - 20, height * 0.55);
+    text("Afname percentage: ", colXCoordinates[0], height * 0.55);
 
     textAlign(LEFT, BOTTOM);
     textFont(quicksand);
     textSize(24);
-    text("Status:", colXCoordinates[1], height * 0.55);
-    text(status, colXCoordinates[1], (height * 0.55) + 32);
+    text("Status:", colXCoordinates[0], height * 0.6);
+    text(status, colXCoordinates[0], (height * 0.6) + 32);
+
+
+    pushMatrix();
+    //move everything after this up a bit for better alignment
+    translate(0, -80);
 
 
     //bloem specialisme
     textFont(quicksand);
     textSize(24);
-    text("Bloem specialisme:", colXCoordinates[1], height * 0.6);
+    text("Bloem specialisme:", colXCoordinates[1], height * 0.725);
 
     imageMode(CORNER);
     float flowerSpecImgH = height * 0.04;
     float flowerSpecImgW = (flowerSpecImgH / flowerSpecialismImgs[flowerSpecialism].height ) * flowerSpecialismImgs[flowerSpecialism].width;
-    image(flowerSpecialismImgs[flowerSpecialism], colXCoordinates[1], height * 0.625, flowerSpecImgW, flowerSpecImgH);
+    image(flowerSpecialismImgs[flowerSpecialism], colXCoordinates[1], height * 0.74, flowerSpecImgW, flowerSpecImgH);
 
     //nestel methode
     textFont(quicksand);
     textSize(24);
-    text("Nestelmethode:", colXCoordinates[1], height * 0.725);
+    text("Parasiet:", colXCoordinates[0], height * 0.85);
+
+
+    imageMode(CORNER);
+    float parasiticImgH = height * 0.075;
+    float parasiticImgW = (parasiticImgH / parasiticImgs[int(parasitic)].height ) * parasiticImgs[int(parasitic)].width;
+    image(parasiticImgs[int(parasitic)], colXCoordinates[0] + 40, height * 0.865, parasiticImgW, parasiticImgH);
+
+
+    //nestel methode
+    textFont(quicksand);
+    textSize(24);
+    text("Nestelmethode:", colXCoordinates[1], height * 0.85);
 
 
     imageMode(CORNER);
     float nestingMethodImgH = height * 0.1;
     float nestingMethodImgW = (nestingMethodImgH / nestingMethodImgs[nestingMethod].height ) * nestingMethodImgs[nestingMethod].width;
-    image(nestingMethodImgs[nestingMethod], colXCoordinates[1], height * 0.74, nestingMethodImgW, nestingMethodImgH);
+    image(nestingMethodImgs[nestingMethod], colXCoordinates[1] - 30, height * 0.865, nestingMethodImgW, nestingMethodImgH);
 
     //draw social icon
     textFont(quicksand);
     textSize(24);
-    text("Sociaal:", colXCoordinates[1], height * 0.875);
+    text("Sociaal:", colXCoordinates[0], height * 0.725);
 
     imageMode(CORNER);
     float socialImageH = height * 0.05;
     float socialImageW = (socialImageH / socialImage.height ) * socialImage.width;
-    image(socialImage, colXCoordinates[1], height * 0.9, socialImageW, socialImageH);
+    image(socialImage, colXCoordinates[0], height * 0.745, socialImageW, socialImageH);
 
 
 
     textAlign(LEFT, BOTTOM);
-    text("Gebied:", colXCoordinates[2], height * 0.55);
+    text("Gebied:", colXCoordinates[2], height * 0.725);
 
     imageMode(CORNER);
     float areaImgH = height * 0.1;
     float areaImgW = (areaImgH / areaImage.height ) * areaImage.width;
-    image(areaImage, colXCoordinates[2], height * 0.575, areaImgW, areaImgH);
+    image(areaImage, colXCoordinates[2], height * 0.73, areaImgW, areaImgH);
 
 
     //write atlas gebieden
     textFont(quicksand);
     textSize(24);
     textAlign(LEFT, BOTTOM);
-    text("Atlasgebieden:", colXCoordinates[2], height * 0.725);
+    text("Atlasgebieden:", colXCoordinates[2], height * 0.85);
     //draw atlas image
     imageMode(CORNER);
 
-    float atlasImageH = height * 0.1;
+    float atlasImageH = height * 0.075;
     float atlasImageW = (atlasImageH / atlasImage.height ) * atlasImage.width;
-    image(atlasImage, colXCoordinates[2], height * 0.75, atlasImageW, atlasImageH);
+    image(atlasImage, colXCoordinates[2], height * 0.865, atlasImageW, atlasImageH);
     textSize(48);
     textAlign(CENTER, CENTER);
     textFont(quicksandBold);
-    text(atlas_areas, colXCoordinates[2] + (atlasImageW / 2), height *0.75 + (atlasImageH * 0.4));
+    text(atlas_areas, colXCoordinates[2] + (atlasImageW / 2), height *0.865 + (atlasImageH * 0.4));
+
+
+
+
+    popMatrix();
+
 
     //draw percentage circle
     imageMode(CENTER);
     float percentageCircleImgH = height * 0.15;
     //float percentageCircleImgW = percentageCircleImgH;
-    image(percentageCircle, (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7, percentageCircleImgH, percentageCircleImgH);
+    image(percentageCircle, width /2, height * 0.55, percentageCircleImgH, percentageCircleImgH);
 
     //Write the percentage
     textSize(75);
     textAlign(CENTER, CENTER);
-    text(int(outputPercentage), (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7);
+    //text(round(outputPercentage), (colXCoordinates[1] - colXCoordinates[0]) / 2, height * 0.7);
+    String percentString = str(round(outputPercentage));
+    text(percentString, width / 2, height * 0.55);
 
-
-
-    //write the years:
-    textAlign(CENTER, CENTER);
-    textFont(quicksand);
-    textSize(18);
-    text("1988", 25, height - 30);
-    text("2003", width / 2, height - 30);
-    text("2018", width - 25, height - 30);
-
-    //draw the year lines
-    fill(255);
-    //rectMode(COR);
-    rect(width / 2, height - 15, 2, 15);
 
     //this creates the fade out effect, always leave this at the bottom
     if (timerBar.fadeOut) {

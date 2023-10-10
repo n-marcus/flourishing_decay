@@ -1,10 +1,10 @@
 class TimerBar {
   //Creating a stopwatch to keep time
 
-  int timerLengthFadeOut = 10000;
-  int timerLengthDefault = 30000;
   //int timerLengthFadeOut = 10000;
-  //int timerLengthDefault = 12000;
+  //int timerLengthDefault = 30000;
+  int timerLengthFadeOut = 5000;
+  int timerLengthDefault = 10000;
   int timerLength = timerLengthDefault;
   int startMillis;
   int endMillis;
@@ -14,9 +14,9 @@ class TimerBar {
   color fadeOutColor = color(100, 50, 2);
   color currentColor = defaultColor;
 
-  boolean resetSend = false;
-
   boolean fadeOut = false;
+
+  boolean sendReset = false;
 
   TimerBar() {
     startMillis = millis();
@@ -38,34 +38,21 @@ class TimerBar {
 
     percentage = float(now - startMillis) / float(timerLength);
 
+
     fill(currentColor);
     noStroke();
     rectMode(CORNER);
-    rect(0, height, percentage * width, -20);
+    rect(0, height, percentage * width, -10);
 
-    //write the years:
-    textAlign(CENTER, CENTER);
-    textFont(quicksand);
-    textSize(30);
-    text("1988", 40, height -45);
-    text("2003", width / 2,  height - 45);
-    text("2018", width - 40, height - 45);
+    if (percentage > 0.6 && fadeOut) {
 
-    //draw the year lines
-    fill(255);
-    rect(15, height - 30, 2, 30);
-    rect(width / 2 , height - 30, 2, 30);
-    rect(width - 15, height - 30, 2, 30);
-
-    if (percentage > 0.5 && fadeOut) {
-      if (!resetSend) {
-        //clearAllAir();
-        sendOscReset((timerLengthFadeOut / 2) - 1000, 1);
-        resetSend = true;
+      if (!reset) {
+        reset = true;
+        clearAllAir();
       }
     } else {
       currentFadeOutFlower = 0;
-      resetSend = false;
+      reset = false;
     }
 
     if (now > startMillis + timerLength) {

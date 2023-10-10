@@ -29,12 +29,9 @@ void loadJSON() {
     bees[i].atlas_areas = bee.getInt("atlas_areas");
     bees[i].social = bee.getBoolean("social");
     bees[i].area = bee.getString("area");
+    bees[i].parasitic = bee.getBoolean("parasitic");
    
-    
-    //bees[i].countupTest.restartCount(int(random(100)), 4);
-
-    //bees[i].reshow();
-    
+   
     bees[i].preSaveImages();
     println("Loaded bee " + i);
     println(bees[i]);
