@@ -22,6 +22,7 @@ void setup() {
   pixelDensity(1);
   //size(1080, 1920, OPENGL);
   //1 is eigen scherm, 2 is externe display
+  noCursor();
 
   //noSmooth();
 
@@ -48,7 +49,7 @@ void setup() {
 
 void draw() {
   background(0);
-  frameRate(30);
+  //frameRate(30);
 
 
   bees[beeIndex].draw(timerBar);
@@ -60,7 +61,7 @@ void draw() {
   noStroke();
   textSize(14);
   textAlign(LEFT, TOP);
-  text(int(frameRate), 10, 10);
+  //text(int(frameRate), 10, 10);
 }
 
 void keyPressed() {
