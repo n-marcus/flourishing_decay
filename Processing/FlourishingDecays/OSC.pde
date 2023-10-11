@@ -20,7 +20,7 @@ void setupOSC() {
 
 void sendPercentageMessagesToFlowers(float percentage) {
 
-  //println("Sending fade on messages " + percentage);
+  println("Sending fade on messages " + percentage);
 
   //calculate how many flowers can be on at this moment in time
   int maxFlowerIndex = ceil((percentage / 100.) * numFlowers);
@@ -75,11 +75,11 @@ void sendFadeOutMessages() {
 
 //  //sendFadeOutMessages();
 
- 
+
 //}
 
 void sendOscReset(int time, int onOrOff) {
-   println("Sending reset message!");
+  println("Sending reset message!");
 
   OscMessage myMessage = new OscMessage("/reset");
   myMessage.add(time); //turn it on
@@ -88,6 +88,11 @@ void sendOscReset(int time, int onOrOff) {
   /* send the message */
   oscP5.send(myMessage, myRemoteLocation);
   oscP5.send(myMessage, abletonOSC);
+  
+  //set all the local OSC flowers to be reset as well
+  for (OSCFlower flower : flowers ) {
+    flower.airOn = onOrOff;
+  }
 }
 
 void pickRandomFlowersForBee(float perc) {
