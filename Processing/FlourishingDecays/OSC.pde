@@ -23,23 +23,14 @@ void sendPercentageMessagesToFlowers(float percentage) {
   println("Sending fade on messages " + percentage);
 
   //calculate how many flowers can be on at this moment in time
-  int maxFlowerIndex = ceil((percentage / 100.) * numFlowers);
+  int maxFlowerIndex = floor((percentage / 100.) * numFlowers);
   //println("max flower index: "
 
   for (int i = 0; i < numFlowers; i ++ ) {
-    //int currentIndex = flowerIndices.get(i);
-
-    //OscMessage myMessage = new OscMessage("/flower");
-
-    //    myMessage.add(currentIndex); // which flower
-
+    //loop over all flowers, if this one should be on, tell the virtual flower to turn on 
+    //(it will filter duplicate messages for us as to not spam the osc connection)
     int airOn = (i > maxFlowerIndex) ? 1 : 0;
     flowers[i].sendOscMessage(airOn);
-    //myMessage.add(airOn); //turn it off
-
-    ///* send the message */
-    //oscP5.send(myMessage, myRemoteLocation);
-    //oscP5.send(myMessage, abletonOSC);
   }
 }
 

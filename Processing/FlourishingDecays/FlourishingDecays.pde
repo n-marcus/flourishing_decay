@@ -1,3 +1,18 @@
+/////////////////////////////////////
+//HIER KAN JE DINGEN AANPASSEN PEPE//
+/////////////////////////////////////
+
+//Dit is het pad naar de foto die ziet na het uitfaden van de bij
+String fadeOutMessageImgPath = "./imgs/fadeOutMessage.png";
+//Dit is hoeveel seconden de delen duren (witte balk en grijze balk, de rest past zich daarop aan)
+//mag ook een kommagetal zijn bijvoorbeeld 5.2
+float tijdPerBij = 40;
+float tijdPerFadeOut = 20;
+
+//////////////////////////////////
+//HIERONDER NIETS AANPASSEN PEPE//
+//////////////////////////////////
+
 import netP5.*;
 import oscP5.*;
 import de.looksgood.ani.*;
@@ -7,6 +22,7 @@ int beeIndex = 0;
 
 //array of beeinformation objects
 BeeInformation[] bees;
+
 TimerBar timerBar;
 
 PFont quicksand;
@@ -16,7 +32,7 @@ PFont quicksandBold;
 static final int numFlowers = 100;
 
 
-
+PImage fadeOutMessageImg = new PImage();
 
 void setup() {
   pixelDensity(1);
@@ -41,16 +57,16 @@ void setup() {
 
   setupOSC();
 
-  sendOscReset(4000, 1);
-
   setupOSCFlowers();
+
+  sendOscReset(4000, 1);
+  
+  fadeOutMessageImg = loadImage(fadeOutMessageImgPath);
 }
 
 
 void draw() {
   background(0);
-  //frameRate(30);
-
 
   bees[beeIndex].draw(timerBar);
 

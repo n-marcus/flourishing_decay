@@ -253,7 +253,7 @@ class BeeInformation {
     imageMode(CENTER);
     float percentageCircleImgH = height * 0.15;
     //float percentageCircleImgW = percentageCircleImgH;
-    image(percentageCircle, width /2, height * 0.575  , percentageCircleImgH, percentageCircleImgH);
+    image(percentageCircle, width /2, height * 0.575, percentageCircleImgH, percentageCircleImgH);
 
     //Write the percentage
     textSize(75);
@@ -265,9 +265,29 @@ class BeeInformation {
 
     //this creates the fade out effect, always leave this at the bottom
     if (timerBar.fadeOut) {
-      fill(0, 0, 0, timerBar.percentage * 255. * 1.5);
+      //make the alpha of the fade out block go from 0 to full range in the same time as the timer goes from 0.0 to 0.5
+      fill(0, 0, 0, map(timerBar.percentage, 0.0, 0.5, 0, 255));
       rectMode(CORNERS);
+      //draw the fadeout block
       rect(0, 0, width, height);
+
+
+      if (timerBar.percentage > 0.5) {
+        //if we are over half of the fade out
+        //calculate the alpha of the message image, this is mapped from 0.5 to 0.75 of the fade out percentage
+        float fadeOutImageAlpha = map(timerBar.percentage, 0.5, 0.75, 0, 255);
+        imageMode(CENTER);
+
+        //calculate the height of the image to make it full width
+        //float fadeOutMessageImgH = (width / fadeOutMessageImg.width) * fadeOutMessageImg.height;
+        //set transparancy for this image
+        tint(255, fadeOutImageAlpha);
+        //draw the image
+        image(fadeOutMessageImg, width / 2, height / 2, fadeOutMessageImg.width, fadeOutMessageImg.height);
+
+        //reset transparancy for all next images
+        tint(255, 255);
+      }
     }
   }
 
